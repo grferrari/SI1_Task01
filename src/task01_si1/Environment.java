@@ -5,57 +5,68 @@
  */
 package task01_si1;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Gabriel e Henrique
  */
 public class Environment {
 
-    private int[][] graph; //matriz representando o grafo
-    private String[] states; //array com os valores dos estados do grafo
-    private int numStates; //Tamanho do grafo
-    private String firstState; //primeiro estado
-    private String currentState; //estado atual
-    private String goalState; //estado objetivo
+    private ArrayList<State> graph; //grafo
+    private int numStates; //tamanho do grafo
+    private State firstState; //primeiro estado
+    private State currentState; //estado atual
+    private State goalState; //estado objetivo    
 
     /**
      * Inicializar o ambiente a ser analisado.
      *
      * @param graph
-     * @param states
-     * @param graphSize
+     * @param numStates
+     * @param firstState
+     * @param goalState
      */
-    public Environment(int[][] graph, String[] states, int numStates,
-            String firstState, String goalState) {
+    public Environment(ArrayList<State> graph, int numStates,
+            State firstState, State goalState) {
         this.graph = graph;
-        this.states = states;
         this.numStates = numStates;
         this.firstState = firstState;
         this.goalState = goalState;
+        this.currentState = firstState;
     }
 
-    public void capturePercept() {
-       
+    /*Pega as percepções atuais do sistema*/
+    public State capturePercept() {
+        return currentState;
     }
 
-    public void executeAction() {
-
+    public State executeAction(String nextState) {
+        State s, addState = null;
+        for (int i = 0; i < graph.size(); i++) {
+            s = graph.get(i);
+            if (s.getId().equals(nextState)) {
+                addState = currentState;
+                currentState = s;
+            }
+        }
+        return addState;
     }
-    
-    public String getFirstState() {
+
+    public State getFirstState() {
         return this.firstState;
     }
-    
-    public String getGoalState() {
+
+    public State getGoalState() {
         return this.goalState;
     }
-    
-    public String getCurrentState() {
+
+    public State getCurrentState() {
         return this.currentState;
     }
-    
-    public int[][] getGraph(){
+
+    public ArrayList<State> getGraph() {
         return this.graph;
     }
-    
+
 }
